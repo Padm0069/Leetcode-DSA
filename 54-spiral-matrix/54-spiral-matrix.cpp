@@ -11,30 +11,31 @@ public:
             if(direction==1)
             {
                 for(int i=left;i<=right;i++) v.push_back(matrix[top][i]);
-                direction=2;
                 top++;
+                direction = 2;
             }
             
             else if(direction==2)
             {
                 for(int i=top;i<=bottom;i++) v.push_back(matrix[i][right]);
-                direction=3;
                 right--;
+                direction = 3;
             }
             
             else if(direction==3)
             {
                 for(int i=right;i>=left;i--) v.push_back(matrix[bottom][i]);
-                direction=4;
                 bottom--;
+                direction = 4;
             }
             
             else if(direction==4)
             {
                 for(int i=bottom;i>=top;i--) v.push_back(matrix[i][left]);
-                direction=1;
                 left++;
+                direction = 1;
             }
+        
         }
         return v;
     }
