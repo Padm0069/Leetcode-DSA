@@ -1,43 +1,23 @@
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> ans;
-        vector<int> c(k, 0); // vector of length k, all 0s
-        int i = 0;
-        while (i >= 0) {
-            // Increment element at index i
-            c[i]++;
-            
-            /* Move index to the left if the element
-             * at index i has exceeded n.
-             */
-            if (c[i] > n) {
-                i--;
-            }
-            
-            /* If the index is at the end of the vector
-             * c, then (because the other conditions are
-             * obeyed), we know we have a valid combination,
-             * so push it to our ans vector<vector<>>
-             */
-            else if (i == k - 1) {
-                ans.push_back(c);
-            }
-            
-            /* Move index to the right and set the
-             * element at that index equal to the
-             * element at the previous index.
-             * 
-             * Because of the increment at the beginning
-             * of this while loop, we ensure that the
-             * element at this index will be at least
-             * one more than its neighbor to the left.
-             */
-            else {
-                i++;
-                c[i] = c[i - 1];
-            }
+        vector<vector<int>>res;
+        vector<int> comb;
+        backtrack(res,1,n,k,comb);
+        return res;
+    }
+    
+    void backtrack(vector<vector<int>>& res, int cur, int n, int k, vector<int>& comb){
+        if(k==0){
+            res.push_back(comb);
+            return;
         }
-        return ans;
+        // If cur>n-k, there are not enough numbers left, we have to select the current element
+        if(cur<=n-k) backtrack(res,cur+1,n,k,comb);  
+        comb.push_back(cur);
+        backtrack(res,cur+1,n,k-1,comb);
+
+        // Pop to avoid needing to repeatedly copy comb and allow pass by reference
+       comb.pop_back();
     }
 };
