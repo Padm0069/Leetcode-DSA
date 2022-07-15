@@ -1,60 +1,97 @@
 class Solution {
 public:
-     int largestArea(vector<int>& histogram){
-        int n=histogram.size(), area=0;
-        stack<int> s;
+    
+    int mah(vector<int> arr, int n){
         
-        for(int i=0; i<n; i++){
-            while(!s.empty() && histogram[s.top()]>=histogram[i]){
-                int top = s.top();
-                s.pop();
-                
-                int start;
-                if(s.empty())
-                    start = -1;
-                else
-                    start = s.top();
-                    
-                
-                int curr_area = histogram[top] * (i - start -1);
-                area = max(area, curr_area);
+        vector<int> nsl;
+        
+        stack<int> st;
+        
+        for(int i = 0 ; i<n ; i++){
+            if(st.empty()){
+                nsl.push_back(-1);
             }
-            s.push(i);
+            else if(arr[st.top()] < arr[i]){
+                nsl.push_back(st.top());
+            }
+            else if(arr[st.top()] >= arr[i]){
+                while(st.size()>0 && arr[st.top()]>=arr[i]){
+                    st.pop();
+                }
+                if(st.empty()){
+                    nsl.push_back(-1);
+                }else{
+                    nsl.push_back(st.top());
+                }
+            }
+            st.push(i);
         }
         
-        while(!s.empty()){
-            int top = s.top();
-            s.pop();
-
-            int start;
-            if(s.empty())
-                start = -1;
-            else
-                start = s.top();
+        while(!st.empty()){
+            st.pop();
+        }
+        
+        vector<int> nsr;
+        
+        for(int i = n-1 ; i>=0 ; i--){
             
-            int curr_area = histogram[top] * (n - start -1);
-            area = max(area, curr_area);
+            if(st.empty()){
+                nsr.push_back(n);
+            }
+            else if(arr[st.top()] < arr[i]){
+                nsr.push_back(st.top());
+            }
+            else if(arr[st.top()] >= arr[i]){
+                while(st.size()>0 && arr[st.top()]>=arr[i]){
+                    st.pop();
+                }
+                if(st.empty()){
+                    nsr.push_back(n);
+                }else{
+                    nsr.push_back(st.top());
+                }
+            }
+            st.push(i);
+        }
+        reverse(nsr.begin(),nsr.end());
+        
+        int mahAns = INT_MIN;
+        
+        for(int i = 0 ; i<n ; i++){
+            int ans =arr[i]*( (i-nsl[i] - 1) + (nsr[i]-i) );
+            mahAns = max(mahAns,ans);
         }
         
-        return area;
-    }
+        return mahAns;
+ }
+    
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int m=matrix.size();
-        if(m==0) return 0;
-        int n=matrix[0].size(), result=0;
-        vector<int> histogram(n, 0);
+        int cols = matrix[0].size();
+        int rows = matrix.size();
         
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(matrix[i][j]=='1')
-                    histogram[j]+=1;
-                else
-                    histogram[j]=0;
+        // cout<<rows<<" "<<cols<<endl;
+        
+        vector<int> arr(cols,0);
+    
+        int maxArea = -1;
+
+        for(int i = 0 ; i<rows ; i++){
+
+            for(int j = 0 ; j<cols ; j++){
+                if((matrix[i][j] - '0') !=0){
+                    arr[j]+=1;
+                }else{ //we can't include a 0 inside a rectangle and thus we have to 
+				       // discard that column for that particular (m x n) calculation.
+                    arr[j] = 0;
+                }
             }
-            
-            result = max(result, largestArea(histogram));
-            cout<<result<<" ";
+
+            maxArea = max(maxArea, mah(arr,cols)); 
+			//keep adding rows and reserving the max area counted till now 
         }
-        return result;
+
+        return maxArea;
     }
 };
+// Time Complexity : O(n * (m + n) )
+// Space Complexity : O(n + n) [dp array + stack to find largest rectangle]
