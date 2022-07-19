@@ -17,3 +17,4 @@ public:
   return s;
     }
 };
+//We mark removed parentheses with '*', and erase all of them in the end.
