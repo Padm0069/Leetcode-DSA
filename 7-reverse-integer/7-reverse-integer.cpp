@@ -1,16 +1,19 @@
 class Solution {
 public:
     int reverse(int x) {
-         int rev = 0;
-       while (x){
-           int digit = x % 10;
-           x /= 10;
-           if ((rev > 0 && rev > (INT_MAX - digit)/10) | (rev < 0 && rev < (INT_MIN - digit)/10)) return 0;
-           rev = rev * 10 + digit;
-       }
-       return rev;
+         int ans = 0;
+        while (x) {
+            // overflow check
+            if (ans > INT_MAX / 10 || ans < INT_MIN / 10) return 0;
+            // get the digit from input number starting at the end
+            int digit = x % 10;
+            // remove the digit "room" from input number
+            x /= 10;
+            // add the digit to resultant number
+            ans = ans * 10 + digit;
+        }
+        return ans;
         
         
     }
 };
-// Integer.MAX_VALUE is equal 2147483647. Integer.MIN_VALUE is equal  -2147483648. Last digits are 7 and 8. This is the reason why we check  pop>7 and pop < -8 conditions
