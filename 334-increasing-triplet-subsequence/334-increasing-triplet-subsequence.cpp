@@ -8,7 +8,7 @@ public:
     {
         if(nums[i]>mid) return true;
         else if(nums[i]<low) low=nums[i];
-        else if(nums[i]> low and nums[i]<mid) mid=nums[i];
+        else if(nums[i]>low && nums[i]<mid) mid = nums[i];
     }
         return false;
     }
