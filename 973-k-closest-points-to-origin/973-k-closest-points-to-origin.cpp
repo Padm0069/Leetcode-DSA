@@ -16,7 +16,8 @@ public:
                     vector<vector<int>>res;
                     vector<int>ans;
                     while(pq.empty()==false)
-                    {int x=pq.top().second.first; //Taking the coordinates of the points.
+                    {
+                     int x=pq.top().second.first; //Taking the coordinates of the points.
                      int y=pq.top().second.second;
                      pq.pop();
                      ans.push_back(x);
