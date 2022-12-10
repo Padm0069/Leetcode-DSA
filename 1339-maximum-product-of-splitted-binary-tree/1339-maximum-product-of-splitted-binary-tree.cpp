@@ -9,34 +9,37 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-static int MOD=1e9+7;
 class Solution {
+    long long sum=0;
+    long long ans=0;
 public:
-    long long totalTreeSum=0,result=0;
     
-    void getTotalTreeSum(TreeNode* root)    //Get total sum of the tree.
-    {
-        if(!root)
+    void getSum(TreeNode *root){
+        if(root==NULL){
             return;
-        totalTreeSum+=root->val;
-        getTotalTreeSum(root->left);
-        getTotalTreeSum(root->right);
+        }
+        getSum(root->left);
+        getSum(root->right);
+
+        sum=sum+root->val;
+
     }
-    
-    int SumUnder(TreeNode* root)             //Get the totalSum under the node `root` including root.
-    {
-       if(!root)
+
+    int dfs(TreeNode *root){
+        if(root==NULL){
             return 0;
-       int sumUnderLeft=SumUnder(root->left),sumUnderRight=SumUnder(root->right); //Get the sum of left and right subtree under node 'root'
-       result=max({result,(totalTreeSum-sumUnderLeft)*sumUnderLeft,(totalTreeSum-sumUnderRight)*sumUnderRight});    //Get the max product after making left or right subtrees as seprarate tree.
-       return sumUnderLeft+sumUnderRight+root->val;
+        }
+        int left=dfs(root->left);
+        int right=dfs(root->right);
+
+        ans=max<long long>(ans,max<long long>((sum-left)*left,(sum-right)*right));
+
+        return left+right+root->val;
     }
-    
-    int maxProduct(TreeNode* root) 
-    {
-        getTotalTreeSum(root);   //calcullates the total sum of the whole tree
-        SumUnder(root);
-        return result%MOD;
+    int maxProduct(TreeNode* root) {
+        getSum(root);
+        dfs(root);
+        long long mod=1e9+7;
+        return ans%mod;
     }
 };
