@@ -7,9 +7,11 @@ public:
         for(int i = n-1;i>=0;i--){
             int sum = INT_MIN;
             int max_ele = INT_MIN;
+            int len = 0;
             for(int j = i;j<n && j<i+k;j++){
+                len++;
                 max_ele = max(max_ele,arr[j]);
-                int cand = j+1 < n ? dp[j+1] + max_ele*(j-i+1) : max_ele*(j-i+1); 
+                int cand = max_ele*len + dp[j+1]; 
                 sum = max(sum , cand);
             }
             dp[i] = sum;
