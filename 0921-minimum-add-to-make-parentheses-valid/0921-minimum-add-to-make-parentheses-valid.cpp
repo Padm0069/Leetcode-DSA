@@ -5,10 +5,10 @@ public:
         for (char c : s)
             if (c == '(')
                 right++;
-            else if (right > 0)
+            else if (right > 0)   //if we get close left, decrement the right as it is balanced now.
                 right--;
             else
-                left++;
+                left++;          //the left with no right XD
         return left + right;
     }
 };
