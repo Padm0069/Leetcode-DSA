@@ -31,4 +31,6 @@ public:
 
         return baseStr;
     }
+    
+    //Now for every index of string s1 and s2, we replace all elements pointing to the greater char between lowestEquivalent of s1[i] and lowestEquivalent of s2[i] with the smaller one.
 };
