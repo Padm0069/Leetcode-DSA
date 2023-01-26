@@ -1,22 +1,29 @@
 class Solution {
 public:
     string removeOuterParentheses(string s) {
-// When we meet outermost '(', the count will be 0, so we post increment the count to ignore that '('.
-// When we meet outermost ')', the count will be 1, so we pre decrement the count to ignore that ')'.
-        
-        int count = 0;
-        string str;
-        for (char c : s) {
-            if (c == '(') {
-                if (count++) {
-                    str += '(';
+        stack<string>st; //to store indexes
+        int n=s.size();
+        string ans="";
+
+        for(int i=0;i<n;++i){
+            if(s[i]=='('){
+                //2 conditions either outer bracket or inner
+
+                if(st.size()!=0){
+                    //inner bracket so part of the ans
+                    ans.push_back('(');
                 }
-            } else {
-                if (--count) {
-                    str += ')';
+                st.push("(");
+            }
+            else{
+                //closing bracket 
+                if(st.size()>1){
+                    ans.push_back(')');
                 }
+                st.pop();
             }
         }
-        return str;
+
+        return ans;
     }
 };
