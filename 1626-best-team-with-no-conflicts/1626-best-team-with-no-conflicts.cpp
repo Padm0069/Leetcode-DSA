@@ -12,7 +12,7 @@ public:
             arr[i].first = ages[i];
             arr[i].second = scores[i];
         }
-        sort(arr.begin(), arr.end());   //soretd by age
+        sort(arr.begin(), arr.end());   //sorted by age
         int team_score = 0;
         for(int i = 0; i < n; ++i){
             dp[i] = arr[i].second;
