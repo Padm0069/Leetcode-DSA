@@ -19,7 +19,7 @@ public:
       count2--;
     }
   }
-  vector < int > ans;
+  vector < int > ans;           //making sure if num1 and num2 are our majority elements or not.
   count1 = count2 = 0;
   for (i = 0; i < sz; i++) {
     if (nums[i] == num1)
