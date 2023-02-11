@@ -1,6 +1,9 @@
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        //first we reverse thhe edges of the graph.
+        
+        //yopo sort i.e take the nodes with indegree 0 and then take the neighbors and reduce thier indegree and take it again.
         int n = graph.size();
         vector<vector<int>> g(n);
         vector<int> indgree(n, 0);
