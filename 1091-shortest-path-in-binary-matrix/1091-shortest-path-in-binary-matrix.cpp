@@ -24,7 +24,7 @@ if (grid[0][0] != 0 | grid[row-1][col-1] != 0) return -1;
 
     queue<pair<int, int>> queue;
     queue.push(make_pair(0,0));
-    vector<vector<int>> directions = {{1,1}, {0,1},{1,0},{0,-1},{-1,0},{-1, -1},{1, -1},{-1, 1}};
+    vector<vector<int>> directions = {{1,1}, {0,1},{1,0},{0,-1},{-1,0},{-1, -1},{1, -1},{-1, 1}}; //can move in 8 direction
     grid[0][0] = 1;
     while(!queue.empty()){
         auto curr = queue.front();
