@@ -1,32 +1,42 @@
 class Solution {
 public:
-    int dfs(int root, vector<vector<int>> &g, vector<int> &vis, vector<int> &nodeCount, long long &ans, int &seats){
-        vis[root] = 1;
-        for(auto i: g[root]){
-            if(vis[i] != 1)  nodeCount[root] += dfs(i, g, vis, nodeCount, ans, seats);
+    int dfs(int node, vector<int> adj[], vector<int> &vis, vector<long long> &cost, int seats)
+    {
+        vis[node] = 1;
+        long long persons = 1;
+        for(auto it : adj[node])
+        {
+            if(!vis[it])
+            {
+                long long p = dfs(it, adj, vis, cost, seats);
+                persons += p; // number of persons meet at 'node'.
+                long long cars = p / seats; // number of cars needed for all 'persons'.
+                if(p % seats != 0)
+                {
+                    cars++;
+                }
+                cost[node] += cars + cost[it]; 
+                // from leaf node of all child's of 'node' to 'node' this is the minimum 
+                // fuel required.
+            }
         }
-        if(root != 0 ){
-            ans += nodeCount[root]/seats;
-            if(nodeCount[root] % seats ) ans = ans + 1;
-        }
-        return nodeCount[root];
+        return persons; // size of subtree with root as 'node'.
     }
-    
     long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
-        long long ans = 0;
         int n = roads.size() + 1;
-        vector<vector<int>> g(n);
-        vector<int> vis(n, -1);
-        vector<int> nodeCount(n, 1);
-        
-        //create initial bi-directional graph - g
-        for(auto r: roads){
-            g[r[0]].push_back(r[1]);
-            g[r[1]].push_back(r[0]);
+        vector<int> adj[n];
+        for(auto it : roads)
+        {
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
         }
+
+        vector<int> vis(n, 0);
+        vector<long long> cost(n, 0);
         
-        //evaluate total fuel used by using dfs
-        dfs(0, g, vis, nodeCount, ans, seats);
-        return ans;
+        dfs(0, adj, vis, cost, seats);
+
+        return cost[0];
+        
     }
 };
