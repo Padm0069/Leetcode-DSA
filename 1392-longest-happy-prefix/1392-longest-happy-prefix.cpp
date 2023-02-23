@@ -2,6 +2,7 @@ class Solution {
 public:
     vector<int> lps(string& word)
     {
+        //uses KMP Algorithm
         vector<int> lp(word.length(), 0);
         
         int index = 0;
@@ -18,7 +19,7 @@ public:
                 if(index != 0)
                     index = lp[index-1];
                 else
-                    i++;
+                    i++;     //no match
             }
         }
         
@@ -28,6 +29,6 @@ public:
     string longestPrefix(string s) {
         vector<int> lp = lps(s);
         
-        return s.substr(0, lp.back());
+        return s.substr(0, lp.back());       //substring starting with 0 and lp lenght
     }
 };
