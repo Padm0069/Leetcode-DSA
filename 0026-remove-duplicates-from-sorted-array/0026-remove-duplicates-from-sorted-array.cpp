@@ -1,6 +1,8 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
+        
+        //brute - use set
          if(nums.size()==0){
              return 0;
          }
