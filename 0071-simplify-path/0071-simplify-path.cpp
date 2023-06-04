@@ -1,48 +1,45 @@
 class Solution {
 public:
     string simplifyPath(string path) {
-        //adding to front of a string is O(n) but to the back is constant time 
-        //Yea, just like vectors.
-        int n=path.length();
-        stack<string>s;
-                
-        if(path[n-1]!='/') // so that initially path always ends with '/'
-            path+="/", ++n;
-            
-        int i=1; // since path always starts from '/'
-        string ans="";
-        string temp="";
-        while(i<n){
-            
-            if(path[i]=='/'){ // check only if we encounter '/'
-                
-                if(temp=="" || temp=="."){
-                    // ignore
-                }
-                else if(temp==".."){
-                    if(!s.empty()) s.pop(); // pop the top element from stack if exists
-                }
-                else{
-                    s.push(temp); //push the directory or file name to stack
-                }
-                
-                temp=""; // reset temp
+        stack<string> st;
+        string res;
+        
+        for(int i = 0;  i<path.size(); ++i)
+        {
+            if(path[i] == '/')    
+                continue;
+            string temp;
+			// iterate till we doesn't traverse the whole string and doesn't encounter the last /
+            while(i < path.size() && path[i] != '/')
+            {
+				// add path to temp string
+                temp += path[i];
+                ++i;
             }
-            else{
-                temp.push_back(path[i]); // else append to temp
+            if(temp == ".")
+                continue;
+			// pop the top element from stack if exists
+            else if(temp == "..")
+            {
+                if(!st.empty())
+                    st.pop();
             }
-            
-            ++i; // increment index
+            else
+			// push the directory file name to stack
+                st.push(temp);
         }
         
-        while(!s.empty()){ // add all the stack elements
-            ans="/"+s.top()+ans;
-            s.pop();
+		// adding all the stack elements to res
+        while(!st.empty())
+        {
+            res = "/" + st.top() + res;
+            st.pop();
         }
         
-        if(ans.length()==0) // if no directory or file is present
-            ans="/"; // minimum root directory must be present in ans
+		// if no directory or file is present
+        if(res.size() == 0)
+            return "/";
         
-        return ans;
+        return res;
     }
 };
