@@ -35,7 +35,7 @@ public:
          if(data.size() == 0) return NULL; 
         stringstream s(data);
         string str; 
-        getline(s, str, ',');
+        getline(s, str, ',');   //Read stringstream object s into str until ",".
         TreeNode *root = new TreeNode(stoi(str));
         queue<TreeNode*> q; 
         q.push(root); 
