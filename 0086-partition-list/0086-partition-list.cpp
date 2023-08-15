@@ -29,7 +29,7 @@ public:
             head = head->next;
         }
         head2->next = NULL;
-        head1->next = h2->next;;
+        head1->next = h2->next; 
         return h1->next;
     }
 };
