@@ -1,24 +1,39 @@
-
-    class Solution {
+class Solution {
 public:
-    vector<string> ans;
-    string keyPad[10] = {"", "", "abc", "def", "ghi", "jkl", "mno", "qprs", "tuv", "wxyz"};
     
-    void backtrack(int index, string& path, const string& digits) {
-        if (index == digits.size()) {
-            ans.push_back(path);
+    void f(int idx,string digits,string temp,vector<string>&ans,unordered_map<char,string>mp){
+        if(idx==digits.size()){
+            ans.push_back(temp);
             return;
         }
-        for (char c : keyPad[digits[index] - '0']) {
-            path[index] = c;
-            backtrack(index + 1, path, digits);
+        string curr=mp[digits[idx]];
+        
+        for(int i=0;i<curr.size();++i){
+            f(idx+1,digits,temp+curr[i],ans,mp);
         }
     }
     
-    vector<string> letterCombinations(const string& digits) {
-        if (digits.empty()) return ans;
-        string path = digits;
-        backtrack(0, path, digits);
+    vector<string> letterCombinations(string digits) {
+        //For each index we have m options explore them all Siu
+        //Apna dhalo na baaki apna dekh lenge xD
+        string temp;
+        vector<string>ans;
+        if(digits.size()==0){
+            return ans;
+        }
+        unordered_map<char,string>mp;
+        mp['2']="abc";
+        mp['3']="def";
+        mp['4']="ghi";
+        mp['5']="jkl";
+        mp['6']="mno";
+        mp['7']="pqrs";
+        mp['8']="tuv";
+        mp['9']="wxyz";
+        
+        f(0,digits,temp,ans,mp);
+        
         return ans;
+        
     }
 };
